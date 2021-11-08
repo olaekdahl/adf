@@ -1,0 +1,20 @@
+{
+	"name": "powerquery1",
+	"properties": {
+		"type": "WranglingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "ADWLT",
+					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~>  ADWLT",
+					"dataset": {
+						"referenceName": "ADWLT",
+						"type": "DatasetReference"
+					}
+				}
+			],
+			"script": "section Section1;\r\nshared ADWLT = let\r\n  AdfDoc = Sql.Database(\"power-bi-demo.database.windows.net\", \"AdventureWorksLT\", [CreateNavigationProperties = false]),\r\n  InputTable = AdfDoc{[Schema = \"SalesLT\", Item = \"SalesOrderHeader\"]}[Data]\r\nin\r\n  InputTable;\r\nshared UserQuery = let\r\n  Source = ADWLT\r\nin\r\n  Source;\r\n",
+			"documentLocale": "en-us"
+		}
+	}
+}
